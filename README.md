@@ -6,6 +6,7 @@ get BTT prices on Binance
 	sample: ./bttto.exe 1000
 2. See result:
 	sample:
+	
 		BTTBNB :  0.01309
 		
 		BTTBRL :  42.09605

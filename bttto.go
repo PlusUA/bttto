@@ -4,29 +4,69 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
+	"net/http"
 	"os"
+	"strconv"
 )
 
-func main() {
-	configFile, err := os.Open("configuration.json")
-	// if we os.Open returns an error then handle it
+var (
+	tickerList [9]string
+	m          float64
+)
+
+type symbolPrice struct {
+	Price string `json:"price"`
+}
+
+func checkErr(err error) {
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
+	}
+}
+
+func main() {
+	tickerList[0] = "BTTBNB"
+	tickerList[1] = "BTTBRL"
+	tickerList[2] = "BTTBUSD"
+	tickerList[3] = "BTTEUR"
+	tickerList[4] = "BTTTRX"
+	tickerList[5] = "BTTTRY"
+	tickerList[6] = "BTTTUSD"
+	tickerList[7] = "BTTUSDC"
+	tickerList[8] = "BTTUSDT"
+
+	if len(os.Args) > 1 {
+		howMatch := os.Args[1]
+		if s, err := strconv.ParseFloat(howMatch, 64); err == nil {
+			m = s
+		}
+
+	} else {
+		fmt.Println("Sorry, but you are not set how tokens need to count, as sample ./bttto.exe 11.11")
+		fmt.Println("Here default price for 1 (one token): ")
+		m = 1.00
 	}
 
-	fmt.Println("Successfully Opened configuration.json")
-	// defer the closing of our jsonFile so that we can parse it later on
-	defer configFile.Close()
+	for l := 0; l < len(tickerList); l++ {
+		getAvgPricebySymbol(tickerList[l], m)
+	}
 
-	byteValue, _ := ioutil.ReadAll(configFile)
+}
 
-	var config APIConfig
+func getAvgPricebySymbol(symbol string, countTokens float64) {
+	resp, err := http.Get("https://api.binance.com/api/v3/avgPrice?symbol=" + symbol)
+	checkErr(err)
 
-	json.Unmarshal(byteValue, &config)
+	body, err := ioutil.ReadAll(resp.Body)
+	checkErr(err)
 
-	for i := 0; i < len(config.Binance); i++ {
-		fmt.Println("API Key: " + config.Binance[i].API.APIKey)
-		fmt.Println("Secret Key: " + config.Binance[i].API.SecretKey)
+	var getSymbolPriceRecord symbolPrice
+
+	json.Unmarshal(body, &getSymbolPriceRecord)
+
+	if s, err := strconv.ParseFloat(getSymbolPriceRecord.Price, 64); err == nil {
+		fmt.Println(symbol+" : ", countTokens*s)
 	}
 
 }

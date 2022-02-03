@@ -24,20 +24,4 @@ get BTT prices on Binance
 		BTTUSDC :  7.53024
 		
 		BTTUSDT :  7.544239
-
-
-
-
-
-
-### DONATE
-
-ERC 0xbF77B8a74Db0844032cFfB3EEB487FC500765C4e
-
-SOL jLmqyrAvd55jixwQQGCDRnTPLHUTJXYNoynKcMYwbqK
-
-COSMOS cosmos1fhlvuwmtalyt2qda2manf6lxsjdv4zxwaew489
-
-PolkaDOT 5EjkEfaLfLqwujT1yi4dkkWWTo3d9MUfwAQEpjsaUANVjiye
-
-TRON TNvHrjyD4RsaXHjfZSYw62e7a9iJMmL5ah
+		

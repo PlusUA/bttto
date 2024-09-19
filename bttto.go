@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -58,7 +58,7 @@ func getAvgPricebySymbol(symbol string, countTokens float64) {
 	resp, err := http.Get("https://api.binance.com/api/v3/avgPrice?symbol=" + symbol)
 	checkErr(err)
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	checkErr(err)
 
 	var getSymbolPriceRecord symbolPrice
